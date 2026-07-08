@@ -37,6 +37,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <Link href="/customers" className="rounded-md px-3 py-2 hover:bg-accent">
             Clientes
           </Link>
+          <Link href="/suppliers" className="rounded-md px-3 py-2 hover:bg-accent">
+            Fornecedores
+          </Link>
           <Link href="/categories" className="rounded-md px-3 py-2 hover:bg-accent">
             Categorias
           </Link>

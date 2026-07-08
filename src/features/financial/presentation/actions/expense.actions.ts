@@ -13,6 +13,8 @@ import { ConfirmExpensePaymentSchema } from "@/features/financial/shared/schemas
 import { InvalidExpenseAmountError } from "@/features/financial/domain/errors/InvalidExpenseAmountError";
 import { ExpenseCategoryNotFoundError } from "@/features/financial/domain/errors/ExpenseCategoryNotFoundError";
 import { ExpenseCategoryTypeMismatchError } from "@/features/financial/domain/errors/ExpenseCategoryTypeMismatchError";
+import { SupplierArchivedError } from "@/features/crm/domain/errors/SupplierArchivedError";
+import { SupplierNotFoundError } from "@/features/crm/domain/errors/SupplierNotFoundError";
 import { ExpenseNotFoundError } from "@/features/financial/domain/errors/ExpenseNotFoundError";
 import { ExpenseNotPendingError } from "@/features/financial/domain/errors/ExpenseNotPendingError";
 
@@ -56,7 +58,9 @@ export async function createExpenseAction(
     if (
       error instanceof InvalidExpenseAmountError ||
       error instanceof ExpenseCategoryNotFoundError ||
-      error instanceof ExpenseCategoryTypeMismatchError
+      error instanceof ExpenseCategoryTypeMismatchError ||
+      error instanceof SupplierNotFoundError ||
+      error instanceof SupplierArchivedError
     ) {
       return { error: error.message };
     }

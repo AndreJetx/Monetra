@@ -610,7 +610,7 @@ Formato adotado:
 | Persona    | Financial Manager |
 | Prioridade | P0                |
 | Release    | MVP               |
-| Status     | Backlog           |
+| Status     | Done              |
 
 **História:** Como responsável financeiro, quero cadastrar fornecedores para vincular às despesas.
 

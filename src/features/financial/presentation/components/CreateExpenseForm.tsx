@@ -17,11 +17,17 @@ type CategoryOption = {
   name: string;
 };
 
-type CreateExpenseFormProps = {
-  categories: CategoryOption[];
+type SupplierOption = {
+  id: string;
+  name: string;
 };
 
-export function CreateExpenseForm({ categories }: CreateExpenseFormProps) {
+type CreateExpenseFormProps = {
+  categories: CategoryOption[];
+  suppliers: SupplierOption[];
+};
+
+export function CreateExpenseForm({ categories, suppliers }: CreateExpenseFormProps) {
   const router = useRouter();
   const [state, formAction, isPending] = useActionState(createExpenseAction, initialState);
 
@@ -72,7 +78,19 @@ export function CreateExpenseForm({ categories }: CreateExpenseFormProps) {
 
       <div className="space-y-2">
         <Label htmlFor="supplierId">Fornecedor (opcional)</Label>
-        <Input id="supplierId" name="supplierId" placeholder="ID do fornecedor" />
+        <select
+          id="supplierId"
+          name="supplierId"
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+          defaultValue=""
+        >
+          <option value="">Nenhum fornecedor</option>
+          {suppliers.map((supplier) => (
+            <option key={supplier.id} value={supplier.id}>
+              {supplier.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="space-y-2">

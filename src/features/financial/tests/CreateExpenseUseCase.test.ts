@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 import { CreateExpenseUseCase } from "@/features/financial/application/use-cases/CreateExpenseUseCase";
+import { Supplier } from "@/features/crm/domain/entities/Supplier";
+import { SupplierArchivedError } from "@/features/crm/domain/errors/SupplierArchivedError";
+import { SupplierNotFoundError } from "@/features/crm/domain/errors/SupplierNotFoundError";
+import type { ISupplierRepository } from "@/features/crm/domain/repositories/ISupplierRepository";
 import { Category } from "@/features/financial/domain/entities/Category";
 import { InvalidExpenseAmountError } from "@/features/financial/domain/errors/InvalidExpenseAmountError";
 import { ExpenseCategoryNotFoundError } from "@/features/financial/domain/errors/ExpenseCategoryNotFoundError";
@@ -15,6 +19,18 @@ const authContext = {
   organizationId: "org-1",
   role: Role.MEMBER,
 };
+
+function createSupplierRepositoryMock(
+  overrides: Partial<ISupplierRepository> = {},
+): ISupplierRepository {
+  return {
+    save: vi.fn(),
+    findById: vi.fn().mockResolvedValue(null),
+    findByName: vi.fn(),
+    listByOrganization: vi.fn(),
+    ...overrides,
+  };
+}
 
 describe("CreateExpenseUseCase", () => {
   it("cria despesa com status inicial PENDING", async () => {
@@ -43,7 +59,11 @@ describe("CreateExpenseUseCase", () => {
       createMany: vi.fn(),
     };
 
-    const useCase = new CreateExpenseUseCase(expenseRepository, categoryRepository);
+    const useCase = new CreateExpenseUseCase(
+      expenseRepository,
+      categoryRepository,
+      createSupplierRepositoryMock(),
+    );
 
     const result = await useCase.execute(
       {
@@ -78,7 +98,11 @@ describe("CreateExpenseUseCase", () => {
       createMany: vi.fn(),
     };
 
-    const useCase = new CreateExpenseUseCase(expenseRepository, categoryRepository);
+    const useCase = new CreateExpenseUseCase(
+      expenseRepository,
+      categoryRepository,
+      createSupplierRepositoryMock(),
+    );
 
     await expect(
       useCase.execute(
@@ -118,7 +142,11 @@ describe("CreateExpenseUseCase", () => {
       createMany: vi.fn(),
     };
 
-    const useCase = new CreateExpenseUseCase(expenseRepository, categoryRepository);
+    const useCase = new CreateExpenseUseCase(
+      expenseRepository,
+      categoryRepository,
+      createSupplierRepositoryMock(),
+    );
 
     await expect(
       useCase.execute(
@@ -158,7 +186,11 @@ describe("CreateExpenseUseCase", () => {
       createMany: vi.fn(),
     };
 
-    const useCase = new CreateExpenseUseCase(expenseRepository, categoryRepository);
+    const useCase = new CreateExpenseUseCase(
+      expenseRepository,
+      categoryRepository,
+      createSupplierRepositoryMock(),
+    );
 
     await expect(
       useCase.execute(
@@ -198,7 +230,11 @@ describe("CreateExpenseUseCase", () => {
       createMany: vi.fn(),
     };
 
-    const useCase = new CreateExpenseUseCase(expenseRepository, categoryRepository);
+    const useCase = new CreateExpenseUseCase(
+      expenseRepository,
+      categoryRepository,
+      createSupplierRepositoryMock(),
+    );
 
     await expect(
       useCase.execute(
@@ -210,5 +246,104 @@ describe("CreateExpenseUseCase", () => {
         { ...authContext, role: Role.VIEWER },
       ),
     ).rejects.toThrow(InsufficientPermissionError);
+  });
+
+  it("falha quando fornecedor informado nao existe", async () => {
+    const category = Category.create({
+      id: "cat-1",
+      organizationId: "org-1",
+      name: "Aluguel",
+      type: CategoryType.EXPENSE,
+    });
+
+    const expenseRepository: IExpenseRepository = {
+      save: vi.fn(),
+      findById: vi.fn(),
+      update: vi.fn(),
+      listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
+    };
+
+    const categoryRepository: ICategoryRepository = {
+      save: vi.fn(),
+      findById: vi.fn().mockResolvedValue(category),
+      findByName: vi.fn(),
+      listByOrganization: vi.fn(),
+      isInUse: vi.fn(),
+      createMany: vi.fn(),
+    };
+
+    const useCase = new CreateExpenseUseCase(
+      expenseRepository,
+      categoryRepository,
+      createSupplierRepositoryMock({
+        findById: vi.fn().mockResolvedValue(null),
+      }),
+    );
+
+    await expect(
+      useCase.execute(
+        {
+          amount: 500,
+          categoryId: "cat-1",
+          dueDate: new Date("2026-07-15"),
+          supplierId: "missing",
+        },
+        authContext,
+      ),
+    ).rejects.toThrow(SupplierNotFoundError);
+  });
+
+  it("falha quando fornecedor informado esta arquivado", async () => {
+    const category = Category.create({
+      id: "cat-1",
+      organizationId: "org-1",
+      name: "Aluguel",
+      type: CategoryType.EXPENSE,
+    });
+
+    const archivedSupplier = Supplier.create({
+      id: "sup-1",
+      organizationId: "org-1",
+      name: "Fornecedor XPTO",
+      archivedAt: new Date("2026-01-01"),
+    });
+
+    const expenseRepository: IExpenseRepository = {
+      save: vi.fn(),
+      findById: vi.fn(),
+      update: vi.fn(),
+      listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
+    };
+
+    const categoryRepository: ICategoryRepository = {
+      save: vi.fn(),
+      findById: vi.fn().mockResolvedValue(category),
+      findByName: vi.fn(),
+      listByOrganization: vi.fn(),
+      isInUse: vi.fn(),
+      createMany: vi.fn(),
+    };
+
+    const useCase = new CreateExpenseUseCase(
+      expenseRepository,
+      categoryRepository,
+      createSupplierRepositoryMock({
+        findById: vi.fn().mockResolvedValue(archivedSupplier),
+      }),
+    );
+
+    await expect(
+      useCase.execute(
+        {
+          amount: 500,
+          categoryId: "cat-1",
+          dueDate: new Date("2026-07-15"),
+          supplierId: "sup-1",
+        },
+        authContext,
+      ),
+    ).rejects.toThrow(SupplierArchivedError);
   });
 });

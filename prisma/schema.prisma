@@ -102,6 +102,7 @@ model Organization {
   revenues    Revenue[]
   expenses    Expense[]
   customers   Customer[]
+  suppliers   Supplier[]
 }
 
 model Membership {
@@ -177,6 +178,7 @@ model Expense {
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   category     Category     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  supplier     Supplier?    @relation(fields: [supplierId], references: [id], onDelete: SetNull)
 
   @@index([organizationId, status])
   @@index([organizationId, dueDate])
@@ -197,6 +199,23 @@ model Customer {
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   revenues     Revenue[]
+
+  @@index([organizationId])
+}
+
+model Supplier {
+  id             String    @id @default(uuid())
+  organizationId String
+  name           String
+  email          String?
+  phone          String?
+  document       String?
+  archivedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  expenses     Expense[]
 
   @@index([organizationId])
 }

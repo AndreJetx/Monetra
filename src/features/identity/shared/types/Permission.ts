@@ -16,6 +16,8 @@ export const permissions = [
   "category:manage",
   "customer:create",
   "customer:view",
+  "supplier:create",
+  "supplier:view",
 ] as const;
 
 export type Permission = (typeof permissions)[number];

@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { SupplierNotFoundError } from "@/features/crm/domain/errors/SupplierNotFoundError";
 import { InsufficientPermissionError } from "@/features/identity/domain/errors/InsufficientPermissionError";
 import {
   confirmExpensePaymentAction,
@@ -102,6 +103,17 @@ describe("createExpenseAction", () => {
     const result = await createExpenseAction({}, makeFormData());
 
     expect(result.error).toBe("Voce nao possui permissao para cadastrar despesas");
+  });
+
+  it("traduz erro de fornecedor nao encontrado", async () => {
+    authMock.mockResolvedValue({
+      user: { id: "user-1", activeOrganizationId: "org-1", role: "MEMBER" },
+    });
+    createExpenseExecuteMock.mockRejectedValue(new SupplierNotFoundError());
+
+    const result = await createExpenseAction({}, makeFormData());
+
+    expect(result.error).toBe("Fornecedor nao encontrado");
   });
 });
 

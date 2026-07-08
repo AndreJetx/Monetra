@@ -1,6 +1,9 @@
 import { Expense } from "@/features/financial/domain/entities/Expense";
 import { ExpenseCategoryNotFoundError } from "@/features/financial/domain/errors/ExpenseCategoryNotFoundError";
 import { ExpenseCategoryTypeMismatchError } from "@/features/financial/domain/errors/ExpenseCategoryTypeMismatchError";
+import { SupplierArchivedError } from "@/features/crm/domain/errors/SupplierArchivedError";
+import { SupplierNotFoundError } from "@/features/crm/domain/errors/SupplierNotFoundError";
+import type { ISupplierRepository } from "@/features/crm/domain/repositories/ISupplierRepository";
 import type { ICategoryRepository } from "@/features/financial/domain/repositories/ICategoryRepository";
 import type { IExpenseRepository } from "@/features/financial/domain/repositories/IExpenseRepository";
 import type { AuthContext } from "@/features/identity/application/authorize";
@@ -19,6 +22,7 @@ export class CreateExpenseUseCase {
   constructor(
     private readonly expenseRepository: IExpenseRepository,
     private readonly categoryRepository: ICategoryRepository,
+    private readonly supplierRepository: ISupplierRepository,
   ) {}
 
   async execute(input: CreateExpenseInput, authContext: AuthContext): Promise<Expense> {
@@ -35,6 +39,21 @@ export class CreateExpenseUseCase {
 
     if (category.getType() !== CategoryType.EXPENSE) {
       throw new ExpenseCategoryTypeMismatchError();
+    }
+
+    if (input.supplierId) {
+      const supplier = await this.supplierRepository.findById(
+        input.supplierId,
+        authContext.organizationId,
+      );
+
+      if (!supplier) {
+        throw new SupplierNotFoundError();
+      }
+
+      if (supplier.isArchived()) {
+        throw new SupplierArchivedError();
+      }
     }
 
     const expense = Expense.create({

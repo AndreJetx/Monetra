@@ -336,14 +336,15 @@ Antes de receitas/despesas, implementar **categorias** (dependência de US-FIN-0
 
 ---
 
-#### Passo 10 — US-CRM-004 Cadastrar fornecedor
+#### Passo 10 — US-CRM-004 Cadastrar fornecedor (concluído)
 
 **Schema Prisma:** `Supplier`
 
 **Entregáveis:**
 
-- CRUD fornecedor vinculável a despesas
-- `/suppliers`
+- [x] Domínio `Supplier` + `CreateSupplierUseCase` + `ListSuppliersUseCase`
+- [x] Página `/suppliers` com formulário e listagem
+- [x] Vínculo opcional de fornecedores no formulário de despesas
 
 ---
 
@@ -551,12 +552,12 @@ npm run setup:check
 
 ## Próximo passo imediato
 
-**US-CRM-004 — Cadastrar fornecedor** (Marco M3)
+**US-AN-001 — Visualizar dashboard** (Marco M3)
 
-1. Criar modelo `Supplier` no Prisma
-2. Implementar `CreateSupplierUseCase` + `ListSuppliersUseCase`
-3. Criar pagina `/suppliers` com formulario e listagem
-4. Integrar select de fornecedores em despesas e cobrir com testes
+1. Implementar `GetDashboardKPIsUseCase` consolidando receitas e despesas confirmadas
+2. Substituir placeholders em `/dashboard` por cards e indicadores reais
+3. Adicionar visualizacao de evolucao mensal no dashboard
+4. Cobrir com testes e validar performance (meta < 2s)
 
 ---
 

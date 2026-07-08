@@ -1,5 +1,6 @@
 import { auth } from "@/shared/auth/auth";
 import { createAuthContext, authorize } from "@/features/identity/application/authorize";
+import { createListSuppliersUseCase } from "@/features/crm/infrastructure/factories";
 import { CategoryType } from "@/features/financial/shared/types/CategoryType";
 import {
   createListCategoriesUseCase,
@@ -23,6 +24,9 @@ export default async function ExpensesPage() {
   const canCreateExpense = authorize(authContext.role, "expense:create");
   const canConfirmExpense = authorize(authContext.role, "expense:edit");
   const categories = await createListCategoriesUseCase().execute(authContext, CategoryType.EXPENSE);
+  const suppliers = authorize(authContext.role, "supplier:view")
+    ? await createListSuppliersUseCase().execute(authContext)
+    : [];
   const expenses = await createListExpensesUseCase().execute(authContext);
 
   return (
@@ -38,6 +42,10 @@ export default async function ExpensesPage() {
         <CreateExpenseForm
           categories={categories.map((category) => {
             const data = category.toPrimitives();
+            return { id: data.id ?? "", name: data.name };
+          })}
+          suppliers={suppliers.map((supplier) => {
+            const data = supplier.toPrimitives();
             return { id: data.id ?? "", name: data.name };
           })}
         />

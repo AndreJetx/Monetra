@@ -25,6 +25,7 @@ describe("authorize", () => {
     expect(authorize(Role.MEMBER, "revenue:edit")).toBe(true);
     expect(authorize(Role.MEMBER, "expense:create")).toBe(true);
     expect(authorize(Role.MEMBER, "customer:create")).toBe(true);
+    expect(authorize(Role.MEMBER, "supplier:create")).toBe(true);
     expect(authorize(Role.MEMBER, "report:view")).toBe(true);
     expect(authorize(Role.MEMBER, "expense:delete")).toBe(false);
     expect(authorize(Role.MEMBER, "member:invite")).toBe(false);
@@ -33,9 +34,11 @@ describe("authorize", () => {
   it("permite apenas leitura para VIEWER", () => {
     expect(authorize(Role.VIEWER, "report:view")).toBe(true);
     expect(authorize(Role.VIEWER, "customer:view")).toBe(true);
+    expect(authorize(Role.VIEWER, "supplier:view")).toBe(true);
     expect(authorize(Role.VIEWER, "revenue:view")).toBe(false);
     expect(authorize(Role.VIEWER, "revenue:create")).toBe(false);
     expect(authorize(Role.VIEWER, "customer:create")).toBe(false);
+    expect(authorize(Role.VIEWER, "supplier:create")).toBe(false);
     expect(authorize(Role.VIEWER, "report:export")).toBe(false);
   });
 });
