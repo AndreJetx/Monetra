@@ -32,6 +32,7 @@ describe("ConfirmRevenueReceiptUseCase", () => {
       findById: vi.fn().mockResolvedValue(makeRevenue("PENDING")),
       update: vi.fn().mockImplementation(async (revenue) => revenue),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const useCase = new ConfirmRevenueReceiptUseCase(repository);
@@ -50,6 +51,7 @@ describe("ConfirmRevenueReceiptUseCase", () => {
       findById: vi.fn().mockResolvedValue(null),
       update: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const useCase = new ConfirmRevenueReceiptUseCase(repository);
@@ -65,6 +67,7 @@ describe("ConfirmRevenueReceiptUseCase", () => {
       findById: vi.fn().mockResolvedValue(makeRevenue("RECEIVED")),
       update: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const useCase = new ConfirmRevenueReceiptUseCase(repository);
@@ -80,6 +83,7 @@ describe("ConfirmRevenueReceiptUseCase", () => {
       findById: vi.fn().mockResolvedValue(makeRevenue("PENDING")),
       update: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const useCase = new ConfirmRevenueReceiptUseCase(repository);

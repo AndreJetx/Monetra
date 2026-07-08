@@ -312,13 +312,13 @@ Antes de receitas/despesas, implementar **categorias** (dependência de US-FIN-0
 
 ---
 
-#### Passo 8 — US-FIN-010 Consultar fluxo de caixa
+#### Passo 8 — US-FIN-010 Consultar fluxo de caixa (concluído)
 
 **Entregáveis:**
 
-- `GetCashFlowUseCase` (read-only)
-- Página `/cash-flow` com visões diária/semanal/mensal/anual
-- Saldo a partir de movimentações confirmadas
+- [x] `GetCashFlowUseCase` (read-only)
+- [x] Página `/cash-flow` com visões diária/semanal/mensal/anual
+- [x] Saldo a partir de movimentações confirmadas
 
 ---
 
@@ -550,14 +550,12 @@ npm run setup:check
 
 ## Próximo passo imediato
 
-**US-FIN-010 — Consultar fluxo de caixa** (Marco M2)
+**US-CRM-001 — Cadastrar cliente** (Marco M3)
 
-1. Implementar `GetCashFlowUseCase` consolidando receitas `RECEIVED` e despesas `PAID`
-2. Criar página `/cash-flow` com filtros de periodo (diario, semanal, mensal, anual)
-3. Exibir saldo e movimentacoes por periodo da organizacao ativa
+1. Criar modelo `Customer` no Prisma
+2. Implementar `CreateCustomerUseCase` + `ListCustomersUseCase`
+3. Criar pagina `/customers` com formulario e listagem
 4. Cobrir com testes unitarios e atualizar roadmap
-
-Depois: **US-CRM-001** (cadastrar cliente).
 
 ---
 

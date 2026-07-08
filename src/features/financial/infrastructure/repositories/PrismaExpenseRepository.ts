@@ -38,6 +38,29 @@ export class PrismaExpenseRepository implements IExpenseRepository {
     return expenses.map((expense) => ExpenseMapper.toDomain(expense));
   }
 
+  async listConfirmedByPeriod(
+    organizationId: string,
+    from: Date,
+    to: Date,
+    categoryId?: string,
+  ): Promise<Expense[]> {
+    const expenses = await this.prisma.expense.findMany({
+      where: {
+        organizationId,
+        deletedAt: null,
+        status: "PAID",
+        paidAt: {
+          gte: from,
+          lte: to,
+        },
+        ...(categoryId ? { categoryId } : {}),
+      },
+      orderBy: { paidAt: "asc" },
+    });
+
+    return expenses.map((expense) => ExpenseMapper.toDomain(expense));
+  }
+
   async findById(id: string, organizationId: string): Promise<Expense | null> {
     const expense = await this.prisma.expense.findFirst({
       where: {

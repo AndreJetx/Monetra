@@ -5,4 +5,10 @@ export interface IExpenseRepository {
   findById(id: string, organizationId: string): Promise<Expense | null>;
   update(expense: Expense): Promise<Expense>;
   listByOrganization(organizationId: string): Promise<Expense[]>;
+  listConfirmedByPeriod(
+    organizationId: string,
+    from: Date,
+    to: Date,
+    categoryId?: string,
+  ): Promise<Expense[]>;
 }

@@ -38,6 +38,29 @@ export class PrismaRevenueRepository implements IRevenueRepository {
     return revenues.map((revenue) => RevenueMapper.toDomain(revenue));
   }
 
+  async listConfirmedByPeriod(
+    organizationId: string,
+    from: Date,
+    to: Date,
+    categoryId?: string,
+  ): Promise<Revenue[]> {
+    const revenues = await this.prisma.revenue.findMany({
+      where: {
+        organizationId,
+        deletedAt: null,
+        status: "RECEIVED",
+        receivedAt: {
+          gte: from,
+          lte: to,
+        },
+        ...(categoryId ? { categoryId } : {}),
+      },
+      orderBy: { receivedAt: "asc" },
+    });
+
+    return revenues.map((revenue) => RevenueMapper.toDomain(revenue));
+  }
+
   async findById(id: string, organizationId: string): Promise<Revenue | null> {
     const revenue = await this.prisma.revenue.findFirst({
       where: {

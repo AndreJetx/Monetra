@@ -14,6 +14,7 @@ import { PrismaExpenseRepository } from "@/features/financial/infrastructure/rep
 import { CreateExpenseUseCase } from "@/features/financial/application/use-cases/CreateExpenseUseCase";
 import { ListExpensesUseCase } from "@/features/financial/application/use-cases/ListExpensesUseCase";
 import { ConfirmExpensePaymentUseCase } from "@/features/financial/application/use-cases/ConfirmExpensePaymentUseCase";
+import { GetCashFlowUseCase } from "@/features/financial/application/use-cases/GetCashFlowUseCase";
 
 export function createCreateCategoryUseCase(): CreateCategoryUseCase {
   return new CreateCategoryUseCase(new PrismaCategoryRepository(prisma));
@@ -67,4 +68,11 @@ export function createListExpensesUseCase(): ListExpensesUseCase {
 
 export function createConfirmExpensePaymentUseCase(): ConfirmExpensePaymentUseCase {
   return new ConfirmExpensePaymentUseCase(new PrismaExpenseRepository(prisma));
+}
+
+export function createGetCashFlowUseCase(): GetCashFlowUseCase {
+  return new GetCashFlowUseCase(
+    new PrismaRevenueRepository(prisma),
+    new PrismaExpenseRepository(prisma),
+  );
 }

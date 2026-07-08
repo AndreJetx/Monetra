@@ -5,4 +5,10 @@ export interface IRevenueRepository {
   findById(id: string, organizationId: string): Promise<Revenue | null>;
   update(revenue: Revenue): Promise<Revenue>;
   listByOrganization(organizationId: string): Promise<Revenue[]>;
+  listConfirmedByPeriod(
+    organizationId: string,
+    from: Date,
+    to: Date,
+    categoryId?: string,
+  ): Promise<Revenue[]>;
 }

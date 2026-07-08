@@ -32,6 +32,7 @@ describe("ConfirmExpensePaymentUseCase", () => {
       findById: vi.fn().mockResolvedValue(makeExpense("PENDING")),
       update: vi.fn().mockImplementation(async (expense) => expense),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const useCase = new ConfirmExpensePaymentUseCase(repository);
@@ -50,6 +51,7 @@ describe("ConfirmExpensePaymentUseCase", () => {
       findById: vi.fn().mockResolvedValue(null),
       update: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const useCase = new ConfirmExpensePaymentUseCase(repository);
@@ -65,6 +67,7 @@ describe("ConfirmExpensePaymentUseCase", () => {
       findById: vi.fn().mockResolvedValue(makeExpense("PAID")),
       update: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const useCase = new ConfirmExpensePaymentUseCase(repository);
@@ -80,6 +83,7 @@ describe("ConfirmExpensePaymentUseCase", () => {
       findById: vi.fn().mockResolvedValue(makeExpense("PENDING")),
       update: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const useCase = new ConfirmExpensePaymentUseCase(repository);

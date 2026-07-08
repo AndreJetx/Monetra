@@ -462,7 +462,7 @@ Formato adotado:
 | Persona    | Owner      |
 | Prioridade | P0         |
 | Release    | MVP        |
-| Status     | Backlog    |
+| Status     | Done       |
 
 **História:** Como proprietário, quero visualizar o fluxo de caixa para entender entradas e saídas.
 

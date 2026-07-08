@@ -30,6 +30,7 @@ describe("CreateRevenueUseCase", () => {
       findById: vi.fn(),
       update: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const categoryRepository: ICategoryRepository = {
@@ -37,6 +38,7 @@ describe("CreateRevenueUseCase", () => {
       findById: vi.fn().mockResolvedValue(category),
       findByName: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
       isInUse: vi.fn(),
       createMany: vi.fn(),
     };
@@ -63,6 +65,7 @@ describe("CreateRevenueUseCase", () => {
       findById: vi.fn(),
       update: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const categoryRepository: ICategoryRepository = {
@@ -70,6 +73,7 @@ describe("CreateRevenueUseCase", () => {
       findById: vi.fn().mockResolvedValue(null),
       findByName: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
       isInUse: vi.fn(),
       createMany: vi.fn(),
     };
@@ -101,6 +105,7 @@ describe("CreateRevenueUseCase", () => {
       findById: vi.fn(),
       update: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const categoryRepository: ICategoryRepository = {
@@ -108,6 +113,7 @@ describe("CreateRevenueUseCase", () => {
       findById: vi.fn().mockResolvedValue(expenseCategory),
       findByName: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
       isInUse: vi.fn(),
       createMany: vi.fn(),
     };
@@ -139,6 +145,7 @@ describe("CreateRevenueUseCase", () => {
       findById: vi.fn(),
       update: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const categoryRepository: ICategoryRepository = {
@@ -146,6 +153,7 @@ describe("CreateRevenueUseCase", () => {
       findById: vi.fn().mockResolvedValue(category),
       findByName: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
       isInUse: vi.fn(),
       createMany: vi.fn(),
     };
@@ -177,6 +185,7 @@ describe("CreateRevenueUseCase", () => {
       findById: vi.fn(),
       update: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
     };
 
     const categoryRepository: ICategoryRepository = {
@@ -184,6 +193,7 @@ describe("CreateRevenueUseCase", () => {
       findById: vi.fn().mockResolvedValue(category),
       findByName: vi.fn(),
       listByOrganization: vi.fn(),
+      listConfirmedByPeriod: vi.fn(),
       isInUse: vi.fn(),
       createMany: vi.fn(),
     };
