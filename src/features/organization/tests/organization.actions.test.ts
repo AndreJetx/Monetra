@@ -39,7 +39,7 @@ describe("switchOrganizationAction", () => {
       user: { id: "user-1" },
     });
 
-    executeMock.mockResolvedValue({ activeOrganizationId: "org-1" });
+    executeMock.mockResolvedValue({ activeOrganizationId: "org-1", role: "ADMIN" });
 
     const formData = new FormData();
     formData.set("organizationId", "org-1");
@@ -50,6 +50,7 @@ describe("switchOrganizationAction", () => {
     expect(updateSessionMock).toHaveBeenCalledWith({
       user: {
         activeOrganizationId: "org-1",
+        role: "ADMIN",
       },
     });
   });

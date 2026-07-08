@@ -1,5 +1,6 @@
 import { OrganizationAccessDeniedError } from "@/features/organization/domain/errors/OrganizationAccessDeniedError";
 import type { IMembershipRepository } from "@/features/organization/domain/repositories/IMembershipRepository";
+import type { Role } from "@/features/identity/shared/types/Role";
 
 type SwitchOrganizationInput = {
   userId: string;
@@ -8,6 +9,7 @@ type SwitchOrganizationInput = {
 
 type SwitchOrganizationOutput = {
   activeOrganizationId: string;
+  role: Role;
 };
 
 export class SwitchOrganizationUseCase {
@@ -23,6 +25,15 @@ export class SwitchOrganizationUseCase {
       throw new OrganizationAccessDeniedError();
     }
 
-    return { activeOrganizationId: input.organizationId };
+    const role = await this.membershipRepository.getMembershipRole(
+      input.userId,
+      input.organizationId,
+    );
+
+    if (!role) {
+      throw new OrganizationAccessDeniedError();
+    }
+
+    return { activeOrganizationId: input.organizationId, role };
   }
 }

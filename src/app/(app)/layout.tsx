@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { auth } from "@/shared/auth/auth";
+import { AuthSessionProvider } from "@/shared/auth/AuthSessionProvider";
 import { Button } from "@/shared/components/ui/button";
 import { logoutAction } from "@/features/identity/presentation/actions/auth.actions";
 import { createListUserOrganizationsUseCase } from "@/features/organization/infrastructure/factories";
@@ -44,7 +45,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             </Button>
           </form>
         </header>
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 p-6">
+          <AuthSessionProvider session={session}>{children}</AuthSessionProvider>
+        </main>
       </div>
     </div>
   );

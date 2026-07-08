@@ -10,4 +10,5 @@ export type UserAuthRecord = {
 export interface IUserRepository {
   existsByEmail(email: string): Promise<boolean>;
   findByEmail(email: string): Promise<UserAuthRecord | null>;
+  updatePasswordHash(userId: string, passwordHash: string): Promise<void>;
 }

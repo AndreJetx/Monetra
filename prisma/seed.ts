@@ -6,12 +6,23 @@ const prisma = new PrismaClient();
 async function main() {
   const passwordHash = await bcrypt.hash("Monetra@123", 12);
 
-  const user = await prisma.user.upsert({
+  const ownerUser = await prisma.user.upsert({
     where: { email: "owner@monetra.dev" },
     update: {},
     create: {
       name: "André Flor",
       email: "owner@monetra.dev",
+      passwordHash,
+      emailVerified: new Date(),
+    },
+  });
+
+  const viewerUser = await prisma.user.upsert({
+    where: { email: "viewer@monetra.dev" },
+    update: {},
+    create: {
+      name: "Viewer Monetra",
+      email: "viewer@monetra.dev",
       passwordHash,
       emailVerified: new Date(),
     },
@@ -31,21 +42,37 @@ async function main() {
   await prisma.membership.upsert({
     where: {
       userId_organizationId: {
-        userId: user.id,
+        userId: ownerUser.id,
         organizationId: organization.id,
       },
     },
     update: {},
     create: {
-      userId: user.id,
+      userId: ownerUser.id,
       organizationId: organization.id,
       role: Role.OWNER,
     },
   });
 
+  await prisma.membership.upsert({
+    where: {
+      userId_organizationId: {
+        userId: viewerUser.id,
+        organizationId: organization.id,
+      },
+    },
+    update: {},
+    create: {
+      userId: viewerUser.id,
+      organizationId: organization.id,
+      role: Role.VIEWER,
+    },
+  });
+
   console.log("Seed concluído:");
-  console.log(`  User: ${user.email}`);
-  console.log(`  Org:  ${organization.name}`);
+  console.log(`  Owner:  ${ownerUser.email}`);
+  console.log(`  Viewer: ${viewerUser.email}`);
+  console.log(`  Org:    ${organization.name}`);
 }
 
 main()

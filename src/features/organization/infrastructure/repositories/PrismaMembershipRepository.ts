@@ -1,4 +1,5 @@
 import type { PrismaClient } from "@prisma/client";
+import type { Role } from "@/features/identity/shared/types/Role";
 import type {
   IMembershipRepository,
   UserOrganization,
@@ -19,6 +20,20 @@ export class PrismaMembershipRepository implements IMembershipRepository {
     });
 
     return !!membership;
+  }
+
+  async getMembershipRole(userId: string, organizationId: string): Promise<Role | null> {
+    const membership = await this.prisma.membership.findUnique({
+      where: {
+        userId_organizationId: {
+          userId,
+          organizationId,
+        },
+      },
+      select: { role: true },
+    });
+
+    return membership?.role ?? null;
   }
 
   async listUserOrganizations(userId: string): Promise<UserOrganization[]> {

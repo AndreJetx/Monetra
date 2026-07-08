@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { DashboardQuickActions } from "@/features/identity/presentation/components/DashboardQuickActions";
 
 export const metadata = {
   title: "Dashboard",
@@ -31,6 +32,8 @@ export default function DashboardPage() {
           </Card>
         ))}
       </div>
+
+      <DashboardQuickActions />
     </div>
   );
 }

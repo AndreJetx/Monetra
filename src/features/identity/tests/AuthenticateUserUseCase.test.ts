@@ -3,6 +3,8 @@ import { AuthenticateUserUseCase } from "@/features/identity/application/use-cas
 import { InvalidCredentialsError } from "@/features/identity/domain/errors/InvalidCredentialsError";
 import type { IUserRepository } from "@/features/identity/domain/repositories/IUserRepository";
 import type { IPasswordHasher } from "@/features/identity/application/ports/IPasswordHasher";
+import type { IUserMembershipReader } from "@/features/identity/application/ports/IUserMembershipReader";
+import { Role } from "@/features/identity/shared/types/Role";
 
 describe("AuthenticateUserUseCase", () => {
   it("retorna usuário autenticado para credenciais válidas", async () => {
@@ -16,6 +18,7 @@ describe("AuthenticateUserUseCase", () => {
         passwordHash: "hashed-password",
         activeOrganizationId: "org-1",
       }),
+      updatePasswordHash: vi.fn(),
     };
 
     const passwordHasher: IPasswordHasher = {
@@ -23,7 +26,15 @@ describe("AuthenticateUserUseCase", () => {
       compare: vi.fn().mockResolvedValue(true),
     };
 
-    const useCase = new AuthenticateUserUseCase(userRepository, passwordHasher);
+    const userMembershipReader: IUserMembershipReader = {
+      getMembershipRole: vi.fn().mockResolvedValue(Role.OWNER),
+    };
+
+    const useCase = new AuthenticateUserUseCase(
+      userRepository,
+      passwordHasher,
+      userMembershipReader,
+    );
     const result = await useCase.execute({
       email: "OWNER@MONETRA.DEV",
       password: "Monetra123",
@@ -31,6 +42,7 @@ describe("AuthenticateUserUseCase", () => {
 
     expect(result.email).toBe("owner@monetra.dev");
     expect(result.activeOrganizationId).toBe("org-1");
+    expect(result.role).toBe(Role.OWNER);
   });
 
   it("falha quando credenciais são inválidas", async () => {
@@ -43,6 +55,7 @@ describe("AuthenticateUserUseCase", () => {
         image: null,
         passwordHash: "hashed-password",
       }),
+      updatePasswordHash: vi.fn(),
     };
 
     const passwordHasher: IPasswordHasher = {
@@ -50,7 +63,15 @@ describe("AuthenticateUserUseCase", () => {
       compare: vi.fn().mockResolvedValue(false),
     };
 
-    const useCase = new AuthenticateUserUseCase(userRepository, passwordHasher);
+    const userMembershipReader: IUserMembershipReader = {
+      getMembershipRole: vi.fn(),
+    };
+
+    const useCase = new AuthenticateUserUseCase(
+      userRepository,
+      passwordHasher,
+      userMembershipReader,
+    );
 
     await expect(
       useCase.execute({

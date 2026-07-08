@@ -41,7 +41,15 @@ export function LoginForm({ registered }: { registered?: boolean }) {
             <Input id="email" name="email" type="email" placeholder="seu@email.com" required />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Senha</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">Senha</Label>
+              <Link
+                href="/forgot-password"
+                className="text-xs text-muted-foreground hover:text-primary hover:underline"
+              >
+                Esqueceu a senha?
+              </Link>
+            </div>
             <Input id="password" name="password" type="password" required />
           </div>
           {state.error ? (

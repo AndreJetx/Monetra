@@ -42,6 +42,7 @@ export async function switchOrganizationAction(
     await updateSession({
       user: {
         activeOrganizationId: result.activeOrganizationId,
+        role: result.role,
       },
     });
 

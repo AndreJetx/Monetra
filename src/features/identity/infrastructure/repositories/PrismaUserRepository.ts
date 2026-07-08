@@ -32,4 +32,17 @@ export class PrismaUserRepository implements IUserRepository {
     if (!user) return null;
     return UserMapper.toAuthRecord(user);
   }
+
+  async updatePasswordHash(userId: string, passwordHash: string): Promise<void> {
+    // RN-IDENTITY-004: invalidar sessões anteriores após alteração de senha.
+    await this.prisma.$transaction([
+      this.prisma.user.update({
+        where: { id: userId },
+        data: { passwordHash },
+      }),
+      this.prisma.session.deleteMany({
+        where: { userId },
+      }),
+    ]);
+  }
 }

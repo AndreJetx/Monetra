@@ -17,6 +17,7 @@ describe("RegisterUserUseCase", () => {
     const userRepository: IUserRepository = {
       existsByEmail: vi.fn().mockResolvedValue(false),
       findByEmail: vi.fn(),
+      updatePasswordHash: vi.fn(),
     };
 
     const passwordHasher: IPasswordHasher = {
@@ -50,6 +51,7 @@ describe("RegisterUserUseCase", () => {
     const userRepository: IUserRepository = {
       existsByEmail: vi.fn().mockResolvedValue(true),
       findByEmail: vi.fn(),
+      updatePasswordHash: vi.fn(),
     };
 
     const passwordHasher: IPasswordHasher = {

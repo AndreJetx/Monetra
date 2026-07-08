@@ -95,7 +95,7 @@ Formato adotado:
 | Persona    | Owner           |
 | Prioridade | P0              |
 | Release    | MVP             |
-| Status     | Backlog         |
+| Status     | Done            |
 
 **História:** Como usuário, quero recuperar minha senha para voltar a acessar o sistema.
 
@@ -156,7 +156,7 @@ Formato adotado:
 | Persona    | Owner           |
 | Prioridade | P0              |
 | Release    | MVP             |
-| Status     | Backlog         |
+| Status     | Done            |
 
 **História:** Como proprietário, quero definir papéis para controlar o que cada membro pode fazer.
 

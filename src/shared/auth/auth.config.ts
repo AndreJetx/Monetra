@@ -19,7 +19,8 @@ export const authConfig = {
       const isAuthPage =
         nextUrl.pathname.startsWith("/login") ||
         nextUrl.pathname.startsWith("/register") ||
-        nextUrl.pathname.startsWith("/forgot-password");
+        nextUrl.pathname.startsWith("/forgot-password") ||
+        nextUrl.pathname.startsWith("/reset-password");
 
       if (isAuthPage) {
         if (isLoggedIn) return Response.redirect(new URL("/dashboard", nextUrl));
@@ -33,10 +34,27 @@ export const authConfig = {
       if (user) {
         token.id = user.id;
         token.activeOrganizationId = user.activeOrganizationId;
+        token.role = user.role;
       }
 
-      if (trigger === "update" && session?.activeOrganizationId) {
-        token.activeOrganizationId = session.activeOrganizationId;
+      const updatedSession = session as
+        | {
+            activeOrganizationId?: string;
+            role?: string;
+            user?: { activeOrganizationId?: string; role?: string };
+          }
+        | undefined;
+
+      const updatedOrganizationId =
+        updatedSession?.activeOrganizationId ?? updatedSession?.user?.activeOrganizationId;
+      const updatedRole = updatedSession?.role ?? updatedSession?.user?.role;
+
+      if (trigger === "update" && updatedOrganizationId) {
+        token.activeOrganizationId = updatedOrganizationId;
+      }
+
+      if (trigger === "update" && updatedRole) {
+        token.role = updatedRole;
       }
 
       return token;
@@ -45,6 +63,7 @@ export const authConfig = {
       if (token) {
         session.user.id = token.id as string;
         session.user.activeOrganizationId = token.activeOrganizationId as string | undefined;
+        session.user.role = token.role as typeof session.user.role;
       }
       return session;
     },
