@@ -301,12 +301,14 @@ Antes de receitas/despesas, implementar **categorias** (dependência de US-FIN-0
 
 ---
 
-#### Passo 7 — US-FIN-004 Confirmar pagamento
+#### Passo 7 — US-FIN-004 Confirmar pagamento (concluído)
 
 **Entregáveis:**
 
-- `ConfirmExpensePaymentUseCase`
-- Status PENDING → PAID
+- [x] `ConfirmExpensePaymentUseCase`
+- [x] `confirmExpensePaymentAction`
+- [x] Status PENDING → PAID
+- [x] Ação de confirmação na listagem de `/expenses`
 
 ---
 
@@ -548,14 +550,14 @@ npm run setup:check
 
 ## Próximo passo imediato
 
-**US-FIN-004 — Confirmar pagamento** (Marco M2)
+**US-FIN-010 — Consultar fluxo de caixa** (Marco M2)
 
-1. Implementar `ConfirmExpensePaymentUseCase` com regras de transição de status
-2. Criar `confirmExpensePaymentAction` para atualizar `paidAt`
-3. Exibir ação de confirmação na listagem de despesas
-4. Cobrir com testes unitários e atualizar roadmap
+1. Implementar `GetCashFlowUseCase` consolidando receitas `RECEIVED` e despesas `PAID`
+2. Criar página `/cash-flow` com filtros de periodo (diario, semanal, mensal, anual)
+3. Exibir saldo e movimentacoes por periodo da organizacao ativa
+4. Cobrir com testes unitarios e atualizar roadmap
 
-Depois: **US-FIN-010** (fluxo de caixa).
+Depois: **US-CRM-001** (cadastrar cliente).
 
 ---
 

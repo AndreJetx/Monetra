@@ -37,4 +37,34 @@ export class PrismaExpenseRepository implements IExpenseRepository {
 
     return expenses.map((expense) => ExpenseMapper.toDomain(expense));
   }
+
+  async findById(id: string, organizationId: string): Promise<Expense | null> {
+    const expense = await this.prisma.expense.findFirst({
+      where: {
+        id,
+        organizationId,
+        deletedAt: null,
+      },
+    });
+
+    return expense ? ExpenseMapper.toDomain(expense) : null;
+  }
+
+  async update(expense: Expense): Promise<Expense> {
+    const data = expense.toPrimitives();
+
+    if (!data.id) {
+      throw new Error("Expense ID is required for update");
+    }
+
+    const updated = await this.prisma.expense.update({
+      where: { id: data.id },
+      data: {
+        status: data.status,
+        paidAt: data.paidAt,
+      },
+    });
+
+    return ExpenseMapper.toDomain(updated);
+  }
 }

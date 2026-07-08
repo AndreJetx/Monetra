@@ -27,6 +27,8 @@ describe("CreateExpenseUseCase", () => {
 
     const expenseRepository: IExpenseRepository = {
       save: vi.fn().mockImplementation(async (expense) => expense),
+      findById: vi.fn(),
+      update: vi.fn(),
       listByOrganization: vi.fn(),
     };
 
@@ -58,6 +60,8 @@ describe("CreateExpenseUseCase", () => {
   it("falha quando categoria nao existe", async () => {
     const expenseRepository: IExpenseRepository = {
       save: vi.fn(),
+      findById: vi.fn(),
+      update: vi.fn(),
       listByOrganization: vi.fn(),
     };
 
@@ -94,6 +98,8 @@ describe("CreateExpenseUseCase", () => {
 
     const expenseRepository: IExpenseRepository = {
       save: vi.fn(),
+      findById: vi.fn(),
+      update: vi.fn(),
       listByOrganization: vi.fn(),
     };
 
@@ -130,6 +136,8 @@ describe("CreateExpenseUseCase", () => {
 
     const expenseRepository: IExpenseRepository = {
       save: vi.fn(),
+      findById: vi.fn(),
+      update: vi.fn(),
       listByOrganization: vi.fn(),
     };
 
@@ -166,6 +174,8 @@ describe("CreateExpenseUseCase", () => {
 
     const expenseRepository: IExpenseRepository = {
       save: vi.fn(),
+      findById: vi.fn(),
+      update: vi.fn(),
       listByOrganization: vi.fn(),
     };
 

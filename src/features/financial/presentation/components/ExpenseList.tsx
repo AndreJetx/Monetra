@@ -1,7 +1,13 @@
 import type { Expense } from "@/features/financial/domain/entities/Expense";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { ExpenseRowActions } from "@/features/financial/presentation/components/ExpenseRowActions";
 
-export function ExpenseList({ expenses }: { expenses: Expense[] }) {
+type ExpenseListProps = {
+  expenses: Expense[];
+  canConfirm: boolean;
+};
+
+export function ExpenseList({ expenses, canConfirm }: ExpenseListProps) {
   if (expenses.length === 0) {
     return (
       <Card>
@@ -44,6 +50,11 @@ export function ExpenseList({ expenses }: { expenses: Expense[] }) {
                   {data.status}
                 </span>
               </div>
+              {canConfirm && data.status === "PENDING" && data.id ? (
+                <div className="mt-3">
+                  <ExpenseRowActions expenseId={data.id} />
+                </div>
+              ) : null}
             </div>
           );
         })}

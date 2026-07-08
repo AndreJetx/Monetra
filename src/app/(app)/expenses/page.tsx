@@ -21,6 +21,7 @@ export default async function ExpensesPage() {
   }
 
   const canCreateExpense = authorize(authContext.role, "expense:create");
+  const canConfirmExpense = authorize(authContext.role, "expense:edit");
   const categories = await createListCategoriesUseCase().execute(authContext, CategoryType.EXPENSE);
   const expenses = await createListExpensesUseCase().execute(authContext);
 
@@ -46,7 +47,7 @@ export default async function ExpensesPage() {
         </p>
       )}
 
-      <ExpenseList expenses={expenses} />
+      <ExpenseList expenses={expenses} canConfirm={canConfirmExpense} />
     </div>
   );
 }

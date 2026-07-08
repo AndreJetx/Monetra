@@ -1,5 +1,6 @@
 import type { ExpenseStatus } from "@/features/financial/shared/types/ExpenseStatus";
 import { InvalidExpenseAmountError } from "@/features/financial/domain/errors/InvalidExpenseAmountError";
+import { ExpenseNotPendingError } from "@/features/financial/domain/errors/ExpenseNotPendingError";
 
 type ExpenseProps = {
   id?: string;
@@ -58,5 +59,14 @@ export class Expense {
 
   toPrimitives(): ExpenseProps {
     return { ...this.props };
+  }
+
+  confirmPayment(paidAt: Date = new Date()): void {
+    if (this.props.status !== "PENDING") {
+      throw new ExpenseNotPendingError();
+    }
+
+    this.props.status = "PAID";
+    this.props.paidAt = paidAt;
   }
 }
