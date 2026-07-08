@@ -324,14 +324,15 @@ Antes de receitas/despesas, implementar **categorias** (dependência de US-FIN-0
 
 ### Marco M3 — CRM + Analytics (semanas 6–8)
 
-#### Passo 9 — US-CRM-001 Cadastrar cliente
+#### Passo 9 — US-CRM-001 Cadastrar cliente (concluído)
 
 **Schema Prisma:** `Customer`
 
 **Entregáveis:**
 
-- CRUD cliente vinculável a receitas
-- `/customers`
+- [x] Domínio `Customer` + `CreateCustomerUseCase` + `ListCustomersUseCase`
+- [x] Página `/customers` com formulário e listagem
+- [x] Vínculo opcional de clientes no formulário de receitas
 
 ---
 
@@ -550,12 +551,12 @@ npm run setup:check
 
 ## Próximo passo imediato
 
-**US-CRM-001 — Cadastrar cliente** (Marco M3)
+**US-CRM-004 — Cadastrar fornecedor** (Marco M3)
 
-1. Criar modelo `Customer` no Prisma
-2. Implementar `CreateCustomerUseCase` + `ListCustomersUseCase`
-3. Criar pagina `/customers` com formulario e listagem
-4. Cobrir com testes unitarios e atualizar roadmap
+1. Criar modelo `Supplier` no Prisma
+2. Implementar `CreateSupplierUseCase` + `ListSuppliersUseCase`
+3. Criar pagina `/suppliers` com formulario e listagem
+4. Integrar select de fornecedores em despesas e cobrir com testes
 
 ---
 

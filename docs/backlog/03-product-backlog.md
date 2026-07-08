@@ -566,7 +566,7 @@ Formato adotado:
 | Persona    | Financial Manager |
 | Prioridade | P0                |
 | Release    | MVP               |
-| Status     | Backlog           |
+| Status     | Done              |
 
 **História:** Como responsável financeiro, quero cadastrar clientes para vincular às receitas.
 

@@ -14,6 +14,8 @@ export const permissions = [
   "report:view",
   "report:export",
   "category:manage",
+  "customer:create",
+  "customer:view",
 ] as const;
 
 export type Permission = (typeof permissions)[number];

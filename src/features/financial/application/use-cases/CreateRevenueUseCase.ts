@@ -3,6 +3,9 @@ import { RevenueCategoryNotFoundError } from "@/features/financial/domain/errors
 import { RevenueCategoryTypeMismatchError } from "@/features/financial/domain/errors/RevenueCategoryTypeMismatchError";
 import type { ICategoryRepository } from "@/features/financial/domain/repositories/ICategoryRepository";
 import type { IRevenueRepository } from "@/features/financial/domain/repositories/IRevenueRepository";
+import type { ICustomerRepository } from "@/features/crm/domain/repositories/ICustomerRepository";
+import { CustomerArchivedError } from "@/features/crm/domain/errors/CustomerArchivedError";
+import { CustomerNotFoundError } from "@/features/crm/domain/errors/CustomerNotFoundError";
 import type { AuthContext } from "@/features/identity/application/authorize";
 import { authorizeOrThrow } from "@/features/identity/application/authorize";
 import { CategoryType } from "@/features/financial/shared/types/CategoryType";
@@ -19,6 +22,7 @@ export class CreateRevenueUseCase {
   constructor(
     private readonly revenueRepository: IRevenueRepository,
     private readonly categoryRepository: ICategoryRepository,
+    private readonly customerRepository: ICustomerRepository,
   ) {}
 
   async execute(input: CreateRevenueInput, authContext: AuthContext): Promise<Revenue> {
@@ -35,6 +39,21 @@ export class CreateRevenueUseCase {
 
     if (category.getType() !== CategoryType.REVENUE) {
       throw new RevenueCategoryTypeMismatchError();
+    }
+
+    if (input.customerId) {
+      const customer = await this.customerRepository.findById(
+        input.customerId,
+        authContext.organizationId,
+      );
+
+      if (!customer) {
+        throw new CustomerNotFoundError();
+      }
+
+      if (customer.isArchived()) {
+        throw new CustomerArchivedError();
+      }
     }
 
     const revenue = Revenue.create({

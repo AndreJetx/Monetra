@@ -5,6 +5,7 @@ import {
   createListCategoriesUseCase,
   createListRevenuesUseCase,
 } from "@/features/financial/infrastructure/factories";
+import { createListCustomersUseCase } from "@/features/crm/infrastructure/factories";
 import { CreateRevenueForm } from "@/features/financial/presentation/components/CreateRevenueForm";
 import { RevenueList } from "@/features/financial/presentation/components/RevenueList";
 
@@ -23,6 +24,9 @@ export default async function RevenuesPage() {
   const canCreateRevenue = authorize(authContext.role, "revenue:create");
   const canConfirmRevenue = authorize(authContext.role, "revenue:edit");
   const categories = await createListCategoriesUseCase().execute(authContext, CategoryType.REVENUE);
+  const customers = authorize(authContext.role, "customer:view")
+    ? await createListCustomersUseCase().execute(authContext)
+    : [];
   const revenues = await createListRevenuesUseCase().execute(authContext);
 
   return (
@@ -38,6 +42,10 @@ export default async function RevenuesPage() {
         <CreateRevenueForm
           categories={categories.map((category) => {
             const data = category.toPrimitives();
+            return { id: data.id ?? "", name: data.name };
+          })}
+          customers={customers.map((customer) => {
+            const data = customer.toPrimitives();
             return { id: data.id ?? "", name: data.name };
           })}
         />

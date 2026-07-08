@@ -26,6 +26,8 @@ const permissionsByRole: Record<Role, readonly Permission[]> = {
     "report:view",
     "report:export",
     "category:manage",
+    "customer:create",
+    "customer:view",
   ],
   [Role.ADMIN]: [
     "revenue:create",
@@ -42,6 +44,8 @@ const permissionsByRole: Record<Role, readonly Permission[]> = {
     "report:view",
     "report:export",
     "category:manage",
+    "customer:create",
+    "customer:view",
   ],
   [Role.MEMBER]: [
     "revenue:create",
@@ -51,8 +55,10 @@ const permissionsByRole: Record<Role, readonly Permission[]> = {
     "expense:edit",
     "expense:view",
     "report:view",
+    "customer:create",
+    "customer:view",
   ],
-  [Role.VIEWER]: ["report:view"],
+  [Role.VIEWER]: ["report:view", "customer:view"],
 };
 
 export function authorize(role: Role, permission: Permission): boolean {

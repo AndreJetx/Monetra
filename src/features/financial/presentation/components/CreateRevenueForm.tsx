@@ -17,11 +17,17 @@ type CategoryOption = {
   name: string;
 };
 
-type CreateRevenueFormProps = {
-  categories: CategoryOption[];
+type CustomerOption = {
+  id: string;
+  name: string;
 };
 
-export function CreateRevenueForm({ categories }: CreateRevenueFormProps) {
+type CreateRevenueFormProps = {
+  categories: CategoryOption[];
+  customers: CustomerOption[];
+};
+
+export function CreateRevenueForm({ categories, customers }: CreateRevenueFormProps) {
   const router = useRouter();
   const [state, formAction, isPending] = useActionState(createRevenueAction, initialState);
 
@@ -72,7 +78,19 @@ export function CreateRevenueForm({ categories }: CreateRevenueFormProps) {
 
       <div className="space-y-2">
         <Label htmlFor="customerId">Cliente (opcional)</Label>
-        <Input id="customerId" name="customerId" placeholder="ID do cliente" />
+        <select
+          id="customerId"
+          name="customerId"
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+          defaultValue=""
+        >
+          <option value="">Nenhum cliente</option>
+          {customers.map((customer) => (
+            <option key={customer.id} value={customer.id}>
+              {customer.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="space-y-2">

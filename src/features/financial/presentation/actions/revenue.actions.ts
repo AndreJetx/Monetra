@@ -15,6 +15,8 @@ import { RevenueCategoryNotFoundError } from "@/features/financial/domain/errors
 import { RevenueCategoryTypeMismatchError } from "@/features/financial/domain/errors/RevenueCategoryTypeMismatchError";
 import { RevenueNotFoundError } from "@/features/financial/domain/errors/RevenueNotFoundError";
 import { RevenueNotPendingError } from "@/features/financial/domain/errors/RevenueNotPendingError";
+import { CustomerArchivedError } from "@/features/crm/domain/errors/CustomerArchivedError";
+import { CustomerNotFoundError } from "@/features/crm/domain/errors/CustomerNotFoundError";
 
 export type RevenueActionState = {
   success?: boolean;
@@ -56,7 +58,9 @@ export async function createRevenueAction(
     if (
       error instanceof InvalidRevenueAmountError ||
       error instanceof RevenueCategoryNotFoundError ||
-      error instanceof RevenueCategoryTypeMismatchError
+      error instanceof RevenueCategoryTypeMismatchError ||
+      error instanceof CustomerNotFoundError ||
+      error instanceof CustomerArchivedError
     ) {
       return { error: error.message };
     }
