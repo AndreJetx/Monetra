@@ -1,7 +1,13 @@
 import type { Revenue } from "@/features/financial/domain/entities/Revenue";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { RevenueRowActions } from "@/features/financial/presentation/components/RevenueRowActions";
 
-export function RevenueList({ revenues }: { revenues: Revenue[] }) {
+type RevenueListProps = {
+  revenues: Revenue[];
+  canConfirm: boolean;
+};
+
+export function RevenueList({ revenues, canConfirm }: RevenueListProps) {
   if (revenues.length === 0) {
     return (
       <Card>
@@ -44,6 +50,11 @@ export function RevenueList({ revenues }: { revenues: Revenue[] }) {
                   {data.status}
                 </span>
               </div>
+              {canConfirm && data.status === "PENDING" && data.id ? (
+                <div className="mt-3">
+                  <RevenueRowActions revenueId={data.id} />
+                </div>
+              ) : null}
             </div>
           );
         })}

@@ -303,7 +303,7 @@ Formato adotado:
 | Persona    | Financial Manager |
 | Prioridade | P0                |
 | Release    | MVP               |
-| Status     | Backlog           |
+| Status     | Done              |
 
 **História:** Como responsável financeiro, quero confirmar o recebimento para atualizar o fluxo de caixa.
 

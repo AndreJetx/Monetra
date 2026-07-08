@@ -277,14 +277,14 @@ Antes de receitas/despesas, implementar **categorias** (dependência de US-FIN-0
 
 ---
 
-#### Passo 5 — US-FIN-002 Confirmar recebimento
+#### Passo 5 — US-FIN-002 Confirmar recebimento (concluído)
 
 **Entregáveis:**
 
-- `ConfirmRevenueReceiptUseCase`
-- `confirmRevenueReceiptAction`
-- Atualização de status PENDING → RECEIVED
-- Impacto em saldo/fluxo de caixa
+- [x] `ConfirmRevenueReceiptUseCase`
+- [x] `confirmRevenueReceiptAction`
+- [x] Atualização de status PENDING → RECEIVED
+- [x] Ação de confirmação na listagem de `/revenues`
 
 ---
 
@@ -546,15 +546,15 @@ npm run setup:check
 
 ## Próximo passo imediato
 
-**US-FIN-002 — Confirmar recebimento** (Marco M2)
+**US-FIN-003 — Cadastrar despesa** (Marco M2)
 
-1. Implementar `ConfirmRevenueReceiptUseCase` com regras de transição de status
-2. Criar `confirmRevenueReceiptAction` para atualizar `receivedAt`
-3. Exibir ação de confirmação na listagem de receitas
-4. Atualizar saldo e consultas de fluxo de caixa com receitas recebidas
+1. Adicionar model `Expense` no Prisma com `categoryId`, `status`, `dueDate` e `organizationId`
+2. Criar entidade `Expense` com validações de domínio (RN-FIN-002)
+3. Implementar `CreateExpenseUseCase` com `authorizeOrThrow(role, "expense:create")`
+4. Criar `createExpenseAction` e UI de cadastro/listagem em `/expenses`
 5. Cobrir com testes unitários e atualizar roadmap
 
-Depois: **US-FIN-003** (despesas) → **US-FIN-004** (confirmar pagamento) → **US-FIN-010** (fluxo de caixa).
+Depois: **US-FIN-004** (confirmar pagamento) → **US-FIN-010** (fluxo de caixa).
 
 ---
 

@@ -37,4 +37,34 @@ export class PrismaRevenueRepository implements IRevenueRepository {
 
     return revenues.map((revenue) => RevenueMapper.toDomain(revenue));
   }
+
+  async findById(id: string, organizationId: string): Promise<Revenue | null> {
+    const revenue = await this.prisma.revenue.findFirst({
+      where: {
+        id,
+        organizationId,
+        deletedAt: null,
+      },
+    });
+
+    return revenue ? RevenueMapper.toDomain(revenue) : null;
+  }
+
+  async update(revenue: Revenue): Promise<Revenue> {
+    const data = revenue.toPrimitives();
+
+    if (!data.id) {
+      throw new Error("Revenue ID is required for update");
+    }
+
+    const updated = await this.prisma.revenue.update({
+      where: { id: data.id },
+      data: {
+        status: data.status,
+        receivedAt: data.receivedAt,
+      },
+    });
+
+    return RevenueMapper.toDomain(updated);
+  }
 }

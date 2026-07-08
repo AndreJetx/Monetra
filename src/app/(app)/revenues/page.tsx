@@ -21,6 +21,7 @@ export default async function RevenuesPage() {
   }
 
   const canCreateRevenue = authorize(authContext.role, "revenue:create");
+  const canConfirmRevenue = authorize(authContext.role, "revenue:edit");
   const categories = await createListCategoriesUseCase().execute(authContext, CategoryType.REVENUE);
   const revenues = await createListRevenuesUseCase().execute(authContext);
 
@@ -41,7 +42,7 @@ export default async function RevenuesPage() {
         </p>
       )}
 
-      <RevenueList revenues={revenues} />
+      <RevenueList revenues={revenues} canConfirm={canConfirmRevenue} />
     </div>
   );
 }

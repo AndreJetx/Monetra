@@ -9,6 +9,7 @@ import { DefaultCategoriesProvisioner } from "@/features/financial/infrastructur
 import { PrismaRevenueRepository } from "@/features/financial/infrastructure/repositories/PrismaRevenueRepository";
 import { CreateRevenueUseCase } from "@/features/financial/application/use-cases/CreateRevenueUseCase";
 import { ListRevenuesUseCase } from "@/features/financial/application/use-cases/ListRevenuesUseCase";
+import { ConfirmRevenueReceiptUseCase } from "@/features/financial/application/use-cases/ConfirmRevenueReceiptUseCase";
 
 export function createCreateCategoryUseCase(): CreateCategoryUseCase {
   return new CreateCategoryUseCase(new PrismaCategoryRepository(prisma));
@@ -43,4 +44,8 @@ export function createCreateRevenueUseCase(): CreateRevenueUseCase {
 
 export function createListRevenuesUseCase(): ListRevenuesUseCase {
   return new ListRevenuesUseCase(new PrismaRevenueRepository(prisma));
+}
+
+export function createConfirmRevenueReceiptUseCase(): ConfirmRevenueReceiptUseCase {
+  return new ConfirmRevenueReceiptUseCase(new PrismaRevenueRepository(prisma));
 }

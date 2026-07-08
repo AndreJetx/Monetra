@@ -1,5 +1,6 @@
 import type { RevenueStatus } from "@/features/financial/shared/types/RevenueStatus";
 import { InvalidRevenueAmountError } from "@/features/financial/domain/errors/InvalidRevenueAmountError";
+import { RevenueNotPendingError } from "@/features/financial/domain/errors/RevenueNotPendingError";
 
 type RevenueProps = {
   id?: string;
@@ -58,5 +59,18 @@ export class Revenue {
 
   toPrimitives(): RevenueProps {
     return { ...this.props };
+  }
+
+  getId(): string | undefined {
+    return this.props.id;
+  }
+
+  confirmReceipt(receivedAt: Date = new Date()): void {
+    if (this.props.status !== "PENDING") {
+      throw new RevenueNotPendingError();
+    }
+
+    this.props.status = "RECEIVED";
+    this.props.receivedAt = receivedAt;
   }
 }
