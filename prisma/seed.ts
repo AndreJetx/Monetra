@@ -1,7 +1,18 @@
-import { PrismaClient, Role } from "@prisma/client";
+import { CategoryType, PrismaClient, Role } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
+
+const defaultCategories = [
+  { name: "Vendas", type: CategoryType.REVENUE },
+  { name: "Serviços", type: CategoryType.REVENUE },
+  { name: "Outras receitas", type: CategoryType.REVENUE },
+  { name: "Salários", type: CategoryType.EXPENSE },
+  { name: "Aluguel", type: CategoryType.EXPENSE },
+  { name: "Fornecedores", type: CategoryType.EXPENSE },
+  { name: "Impostos", type: CategoryType.EXPENSE },
+  { name: "Outras despesas", type: CategoryType.EXPENSE },
+];
 
 async function main() {
   const passwordHash = await bcrypt.hash("Monetra@123", 12);
@@ -69,10 +80,21 @@ async function main() {
     },
   });
 
+  await prisma.category.createMany({
+    data: defaultCategories.map((category) => ({
+      organizationId: organization.id,
+      name: category.name,
+      type: category.type,
+      isDefault: true,
+    })),
+    skipDuplicates: true,
+  });
+
   console.log("Seed concluído:");
   console.log(`  Owner:  ${ownerUser.email}`);
   console.log(`  Viewer: ${viewerUser.email}`);
   console.log(`  Org:    ${organization.name}`);
+  console.log(`  Categorias padrão: ${defaultCategories.length}`);
 }
 
 main()

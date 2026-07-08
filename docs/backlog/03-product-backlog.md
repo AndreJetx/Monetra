@@ -282,7 +282,7 @@ Formato adotado:
 | Persona    | Financial Manager |
 | Prioridade | P0                |
 | Release    | MVP               |
-| Status     | Backlog           |
+| Status     | Done              |
 
 **História:** Como responsável financeiro, quero registrar uma receita para acompanhar entradas de dinheiro.
 
@@ -424,7 +424,7 @@ Formato adotado:
 | Persona    | Admin      |
 | Prioridade | P1         |
 | Release    | MVP        |
-| Status     | Backlog    |
+| Status     | Done       |
 
 **História:** Como administrador, quero gerenciar categorias para organizar receitas e despesas.
 

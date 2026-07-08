@@ -60,6 +60,7 @@ Product Backlog
 | US-ORG-003 Trocar empresa ativa | Concluída | `switchOrganizationAction` + switcher                                       |
 | US-IDENTITY-003 Recuperar senha | Concluída | Token 24h uso único, páginas `/forgot-password` e `/reset-password/[token]` |
 | US-IDENTITY-006 RBAC            | Concluída | Matriz de permissões, `role` na sessão e UI adaptativa                      |
+| US-FIN-008 Gerenciar categorias | Concluída | Schema Prisma, categorias padrão e página `/categories` com RBAC            |
 
 ---
 
@@ -248,31 +249,31 @@ Estimativa total: **8–10 semanas** ([docs/backlog/04-release-plan.md](docs/bac
 
 Antes de receitas/despesas, implementar **categorias** (dependência de US-FIN-008).
 
-#### Passo 3 — US-FIN-008 Gerenciar categorias
+#### Passo 3 — US-FIN-008 Gerenciar categorias (concluído)
 
 **Schema Prisma:** `Category` (tipo REVENUE | EXPENSE, organizationId)
 
 **Entregáveis:**
 
-- Domínio `Category` + `CreateCategoryUseCase`, `ListCategoriesUseCase`
-- Seed de categorias padrão por organização
-- CRUD em `/categories` (ou modal no formulário de lançamento)
-- Regra: não excluir categoria em uso
+- [x] Domínio `Category` + `CreateCategoryUseCase`, `ListCategoriesUseCase`
+- [x] Seed de categorias padrão por organização
+- [x] CRUD em `/categories`
+- [x] Regra: não excluir categoria em uso
 
 **Docs:** RN-FIN-*, `docs/09-database-design.md`
 
 ---
 
-#### Passo 4 — US-FIN-001 Cadastrar receita
+#### Passo 4 — US-FIN-001 Cadastrar receita (concluído)
 
 **Schema Prisma:** `Revenue` (amount, categoryId, dueDate, status PENDING, customerId?, organizationId)
 
 **Entregáveis:**
 
-- Entidade `Revenue` com transições de status (RN-FIN-001)
-- `CreateRevenueUseCase` + `createRevenueAction`
-- Formulário e listagem `/revenues`
-- RBAC: `revenue:create` (MEMBER+)
+- [x] Entidade `Revenue` com status inicial `PENDING` (RN-FIN-001)
+- [x] `CreateRevenueUseCase` + `ListRevenuesUseCase` + `createRevenueAction`
+- [x] Formulário e listagem em `/revenues`
+- [x] RBAC: `revenue:create` (MEMBER+)
 
 ---
 
@@ -545,15 +546,15 @@ npm run setup:check
 
 ## Próximo passo imediato
 
-**US-FIN-008 — Gerenciar categorias** (Marco M2)
+**US-FIN-002 — Confirmar recebimento** (Marco M2)
 
-1. Adicionar model `Category` no Prisma (tipo REVENUE | EXPENSE, `organizationId`)
-2. Criar domínio `Category` + `CreateCategoryUseCase` e `ListCategoriesUseCase`
-3. Aplicar `authorizeOrThrow(role, "category:manage")` nos use cases de escrita
-4. Seed de categorias padrão por organização
-5. UI de categorias + testes
+1. Implementar `ConfirmRevenueReceiptUseCase` com regras de transição de status
+2. Criar `confirmRevenueReceiptAction` para atualizar `receivedAt`
+3. Exibir ação de confirmação na listagem de receitas
+4. Atualizar saldo e consultas de fluxo de caixa com receitas recebidas
+5. Cobrir com testes unitários e atualizar roadmap
 
-Depois: **US-FIN-001** (cadastrar receita) → **US-FIN-002** (confirmar recebimento) → **US-FIN-003** (despesas).
+Depois: **US-FIN-003** (despesas) → **US-FIN-004** (confirmar pagamento) → **US-FIN-010** (fluxo de caixa).
 
 ---
 

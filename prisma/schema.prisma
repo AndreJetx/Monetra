@@ -16,6 +16,17 @@ enum Role {
   VIEWER
 }
 
+enum CategoryType {
+  REVENUE
+  EXPENSE
+}
+
+enum RevenueStatus {
+  PENDING
+  RECEIVED
+  CANCELLED
+}
+
 // ─── Auth.js Tables ──────────────────────────────────────
 
 model User {
@@ -81,6 +92,8 @@ model Organization {
   updatedAt DateTime @updatedAt
 
   memberships Membership[]
+  categories  Category[]
+  revenues    Revenue[]
 }
 
 model Membership {
@@ -98,10 +111,47 @@ model Membership {
   @@index([organizationId])
 }
 
+// ─── Financial ─────────────────────────────────────────
+model Category {
+  id             String       @id @default(uuid())
+  organizationId String
+  name           String
+  type           CategoryType
+  isDefault      Boolean      @default(false)
+  archivedAt     DateTime?
+  createdAt      DateTime     @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  revenues     Revenue[]
+
+  @@unique([organizationId, name, type])
+  @@index([organizationId, type])
+}
+
+model Revenue {
+  id             String        @id @default(uuid())
+  organizationId String
+  amount         Decimal       @db.Decimal(15, 2)
+  description    String?
+  status         RevenueStatus @default(PENDING)
+  dueDate        DateTime      @db.Date
+  receivedAt     DateTime?     @db.Date
+  categoryId     String
+  customerId     String?
+  createdBy      String
+  deletedAt      DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  category     Category     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@index([organizationId, status])
+  @@index([organizationId, dueDate])
+}
+
 // ─── Financial (TODO: implementar no domínio Financial) ─
-// model Revenue { ... }
 // model Expense { ... }
-// model Category { ... }
 
 // ─── CRM (TODO: implementar no domínio CRM) ─
 // model Customer { ... }

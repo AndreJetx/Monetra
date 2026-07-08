@@ -9,12 +9,17 @@ import { BcryptPasswordHasher } from "@/features/identity/infrastructure/securit
 import { CryptoTokenGenerator } from "@/features/identity/infrastructure/security/CryptoTokenGenerator";
 import { ConsolePasswordResetMailer } from "@/features/identity/infrastructure/mail/ConsolePasswordResetMailer";
 import { PrismaMembershipRepository } from "@/features/organization/infrastructure/repositories/PrismaMembershipRepository";
+import { createDefaultCategoriesProvisioner } from "@/features/financial/infrastructure/factories";
 import { prisma } from "@/shared/db/prisma";
 
 export function createRegisterUserUseCase(): RegisterUserUseCase {
   const userRepository = new PrismaUserRepository(prisma);
   const passwordHasher = new BcryptPasswordHasher();
-  const accountProvisioningGateway = new PrismaAccountProvisioningGateway(prisma);
+  const defaultCategoriesProvisioner = createDefaultCategoriesProvisioner();
+  const accountProvisioningGateway = new PrismaAccountProvisioningGateway(
+    prisma,
+    defaultCategoriesProvisioner,
+  );
 
   return new RegisterUserUseCase(userRepository, passwordHasher, accountProvisioningGateway);
 }

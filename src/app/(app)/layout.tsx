@@ -25,6 +25,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <Link href="/dashboard" className="rounded-md px-3 py-2 hover:bg-accent">
             Dashboard
           </Link>
+          <Link href="/revenues" className="rounded-md px-3 py-2 hover:bg-accent">
+            Receitas
+          </Link>
+          <Link href="/categories" className="rounded-md px-3 py-2 hover:bg-accent">
+            Categorias
+          </Link>
         </nav>
         <div className="mt-4 border-t pt-4">
           <OrganizationSwitcher
