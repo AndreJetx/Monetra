@@ -6,24 +6,24 @@ import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import {
-  createRevenueAction,
-  type RevenueActionState,
-} from "@/features/financial/presentation/actions/revenue.actions";
+  createExpenseAction,
+  type ExpenseActionState,
+} from "@/features/financial/presentation/actions/expense.actions";
 
-const initialState: RevenueActionState = {};
+const initialState: ExpenseActionState = {};
 
 type CategoryOption = {
   id: string;
   name: string;
 };
 
-type CreateRevenueFormProps = {
+type CreateExpenseFormProps = {
   categories: CategoryOption[];
 };
 
-export function CreateRevenueForm({ categories }: CreateRevenueFormProps) {
+export function CreateExpenseForm({ categories }: CreateExpenseFormProps) {
   const router = useRouter();
-  const [state, formAction, isPending] = useActionState(createRevenueAction, initialState);
+  const [state, formAction, isPending] = useActionState(createExpenseAction, initialState);
 
   useEffect(() => {
     if (state.success) {
@@ -34,9 +34,9 @@ export function CreateRevenueForm({ categories }: CreateRevenueFormProps) {
   return (
     <form action={formAction} className="space-y-4 rounded-lg border p-4">
       <div>
-        <h2 className="text-lg font-semibold">Nova receita</h2>
+        <h2 className="text-lg font-semibold">Nova despesa</h2>
         <p className="text-sm text-muted-foreground">
-          Registre entradas financeiras da organizacao ativa.
+          Registre saidas financeiras da organizacao ativa.
         </p>
       </div>
 
@@ -66,13 +66,13 @@ export function CreateRevenueForm({ categories }: CreateRevenueFormProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="dueDate">Data prevista</Label>
+        <Label htmlFor="dueDate">Data de vencimento</Label>
         <Input id="dueDate" name="dueDate" type="date" required />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="customerId">Cliente (opcional)</Label>
-        <Input id="customerId" name="customerId" placeholder="ID do cliente" />
+        <Label htmlFor="supplierId">Fornecedor (opcional)</Label>
+        <Input id="supplierId" name="supplierId" placeholder="ID do fornecedor" />
       </div>
 
       <div className="space-y-2">
@@ -87,7 +87,7 @@ export function CreateRevenueForm({ categories }: CreateRevenueFormProps) {
       ) : null}
 
       <Button type="submit" disabled={isPending}>
-        {isPending ? "Salvando..." : "Cadastrar receita"}
+        {isPending ? "Salvando..." : "Cadastrar despesa"}
       </Button>
     </form>
   );

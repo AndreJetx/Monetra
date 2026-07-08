@@ -324,9 +324,7 @@ Formato adotado:
 | Persona    | Financial Manager |
 | Prioridade | P0                |
 | Release    | MVP               |
-| Status     | Backlog           |
-
-**História:** Como responsável financeiro, quero registrar uma despesa para controlar saídas de dinheiro.
+| Status     | Done              |
 
 **Critérios de aceitação:**
 

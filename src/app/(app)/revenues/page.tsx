@@ -35,7 +35,12 @@ export default async function RevenuesPage() {
       </div>
 
       {canCreateRevenue ? (
-        <CreateRevenueForm categories={categories} />
+        <CreateRevenueForm
+          categories={categories.map((category) => {
+            const data = category.toPrimitives();
+            return { id: data.id ?? "", name: data.name };
+          })}
+        />
       ) : (
         <p className="rounded-lg border border-dashed p-4 text-sm text-muted-foreground">
           Voce tem acesso somente de leitura para receitas.

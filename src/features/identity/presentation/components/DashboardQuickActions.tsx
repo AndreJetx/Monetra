@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { usePermission } from "@/features/identity/presentation/hooks/usePermission";
@@ -11,28 +12,24 @@ export function DashboardQuickActions() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Ações rápidas</CardTitle>
+        <CardTitle>Acoes rapidas</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-wrap gap-3">
         {canCreateRevenue ? (
-          <Button type="button" disabled>
-            Nova receita
+          <Button asChild>
+            <Link href="/revenues">Nova receita</Link>
           </Button>
         ) : null}
         {canCreateExpense ? (
-          <Button type="button" variant="secondary" disabled>
-            Nova despesa
+          <Button asChild variant="secondary">
+            <Link href="/expenses">Nova despesa</Link>
           </Button>
         ) : null}
         {!canCreateRevenue && !canCreateExpense ? (
           <p className="text-sm text-muted-foreground">
             Seu papel atual possui acesso somente de leitura neste momento.
           </p>
-        ) : (
-          <p className="w-full text-sm text-muted-foreground">
-            Ações financeiras serão habilitadas no próximo marco do roadmap.
-          </p>
-        )}
+        ) : null}
       </CardContent>
     </Card>
   );

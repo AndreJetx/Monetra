@@ -288,14 +288,16 @@ Antes de receitas/despesas, implementar **categorias** (dependência de US-FIN-0
 
 ---
 
-#### Passo 6 — US-FIN-003 Cadastrar despesa
+#### Passo 6 — US-FIN-003 Cadastrar despesa (concluído)
 
 **Schema Prisma:** `Expense` (espelha Revenue com dueDate/vencimento)
 
 **Entregáveis:**
 
-- Domínio `Expense` (RN-FIN-002)
-- `CreateExpenseUseCase` + UI `/expenses`
+- [x] Domínio `Expense` com status inicial `PENDING` (RN-FIN-002)
+- [x] `CreateExpenseUseCase` + `ListExpensesUseCase` + `createExpenseAction`
+- [x] Formulário e listagem em `/expenses`
+- [x] RBAC: `expense:create` (MEMBER+)
 
 ---
 
@@ -546,15 +548,14 @@ npm run setup:check
 
 ## Próximo passo imediato
 
-**US-FIN-003 — Cadastrar despesa** (Marco M2)
+**US-FIN-004 — Confirmar pagamento** (Marco M2)
 
-1. Adicionar model `Expense` no Prisma com `categoryId`, `status`, `dueDate` e `organizationId`
-2. Criar entidade `Expense` com validações de domínio (RN-FIN-002)
-3. Implementar `CreateExpenseUseCase` com `authorizeOrThrow(role, "expense:create")`
-4. Criar `createExpenseAction` e UI de cadastro/listagem em `/expenses`
-5. Cobrir com testes unitários e atualizar roadmap
+1. Implementar `ConfirmExpensePaymentUseCase` com regras de transição de status
+2. Criar `confirmExpensePaymentAction` para atualizar `paidAt`
+3. Exibir ação de confirmação na listagem de despesas
+4. Cobrir com testes unitários e atualizar roadmap
 
-Depois: **US-FIN-004** (confirmar pagamento) → **US-FIN-010** (fluxo de caixa).
+Depois: **US-FIN-010** (fluxo de caixa).
 
 ---
 

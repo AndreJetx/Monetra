@@ -10,6 +10,9 @@ import { PrismaRevenueRepository } from "@/features/financial/infrastructure/rep
 import { CreateRevenueUseCase } from "@/features/financial/application/use-cases/CreateRevenueUseCase";
 import { ListRevenuesUseCase } from "@/features/financial/application/use-cases/ListRevenuesUseCase";
 import { ConfirmRevenueReceiptUseCase } from "@/features/financial/application/use-cases/ConfirmRevenueReceiptUseCase";
+import { PrismaExpenseRepository } from "@/features/financial/infrastructure/repositories/PrismaExpenseRepository";
+import { CreateExpenseUseCase } from "@/features/financial/application/use-cases/CreateExpenseUseCase";
+import { ListExpensesUseCase } from "@/features/financial/application/use-cases/ListExpensesUseCase";
 
 export function createCreateCategoryUseCase(): CreateCategoryUseCase {
   return new CreateCategoryUseCase(new PrismaCategoryRepository(prisma));
@@ -48,4 +51,15 @@ export function createListRevenuesUseCase(): ListRevenuesUseCase {
 
 export function createConfirmRevenueReceiptUseCase(): ConfirmRevenueReceiptUseCase {
   return new ConfirmRevenueReceiptUseCase(new PrismaRevenueRepository(prisma));
+}
+
+export function createCreateExpenseUseCase(): CreateExpenseUseCase {
+  return new CreateExpenseUseCase(
+    new PrismaExpenseRepository(prisma),
+    new PrismaCategoryRepository(prisma),
+  );
+}
+
+export function createListExpensesUseCase(): ListExpensesUseCase {
+  return new ListExpensesUseCase(new PrismaExpenseRepository(prisma));
 }
